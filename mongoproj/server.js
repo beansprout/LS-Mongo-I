@@ -11,7 +11,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/my-cool-app');
+mongoose.connect('mongodb://localhost/user_mongoI_proj');
 
 const User = require('./models/user');
 const app = express();
@@ -24,6 +24,13 @@ app.get('/', (req, res) => {
   res.send('hello world!');
 });
 
+app.post('/users', (req, res) => {
+  const user = new User(req.body);
+  user.save((err, response) => {
+    if (err) return res.send(err);
+    res.send(response);
+  });
+});
 
 app.listen(5000, () => {
   console.log('Server is listening on port 5000');
