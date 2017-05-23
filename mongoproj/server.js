@@ -1,10 +1,3 @@
-/*
-Implement the following routes but have them utilize a database to achieve data persistence.
-* [POST] `/users` This route should save a new user to the server. (This is just in memory and will not persist if you restart the server.)
-* [GET] `/users` This route will return an array of all users.
-* [GET] `/users/:id` This route will return the user with the matching `id` (`_id` on the db document) property.
-* [DELETE] `/users/:id` This route should delete the specified user.
-*/
 
 // node require
 const express = require('express');
@@ -12,8 +5,12 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
+// ---connect modules and database ------
+
+// connect express server to mongoDB server
 mongoose.connect('mongodb://localhost/user_mongoI_proj');
 
+// connect server to User schema model
 const User = require('./models/user');
 
 const app = express();
@@ -21,12 +18,16 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// simple assignment to server address
+
+// ---- home route ----- server test ------
 app.get('/', (req, res) => {
   res.send('hello world!');
 });
 
+// ------ routes --------------------------
+
 // User.find with {} empty object finds all users
+// route gets array of all users
 app.get('/users', (req, res) => {
   User.find({}, (err, users) => {
     if (err) res.send(err);
@@ -34,6 +35,7 @@ app.get('/users', (req, res) => {
   });
 });
 
+// get a single user by id
 app.get('/users/:id', (req, res) => {
   const id = req.params.id;
   User.findById(id, (err, user) => {
@@ -53,7 +55,7 @@ app.post('/users', (req, res) => {
   });
 });
 
-
+// removes user by id
 app.delete('/users/:id', (req, res) => {
   const id = req.params.id;
   User.findByIdAndRemove(id, (err, user) => {
