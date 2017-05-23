@@ -6,14 +6,16 @@ Implement the following routes but have them utilize a database to achieve data 
 * [DELETE] `/users/:id` This route should delete the specified user.
 */
 
-//node require
+// node require
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+
 mongoose.connect('mongodb://localhost/user_mongoI_proj');
 
 const User = require('./models/user');
+
 const app = express();
 
 app.use(cors());
@@ -24,13 +26,25 @@ app.get('/', (req, res) => {
   res.send('hello world!');
 });
 
+app.get('/users', (req, res) => {
+  //
+  User.find({}, (err, users) => {
+    if (err) res.send(err);
+    res.send(users);
+  });
+});
+
 app.post('/users', (req, res) => {
   const user = new User(req.body);
   user.save((err, response) => {
-    if (err) return res.send(err);
-    res.send(response);
+    if (err) {
+      return res.send(err);
+    }
+    return res.send('success! new user created');
   });
 });
+
+
 
 app.listen(5000, () => {
   console.log('Server is listening on port 5000');
