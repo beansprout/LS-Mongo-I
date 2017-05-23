@@ -26,14 +26,23 @@ app.get('/', (req, res) => {
   res.send('hello world!');
 });
 
+// User.find with {} empty object finds all users
 app.get('/users', (req, res) => {
-  //
   User.find({}, (err, users) => {
     if (err) res.send(err);
     res.send(users);
   });
 });
 
+app.get('/users/:id', (req, res) => {
+  const id = req.params.id;
+  User.findById(id, (err, user) => {
+    if (err) res.send(err);
+    res.send(user);
+  });
+});
+
+// create new user
 app.post('/users', (req, res) => {
   const user = new User(req.body);
   user.save((err, response) => {
@@ -45,6 +54,15 @@ app.post('/users', (req, res) => {
 });
 
 
+app.delete('/users/:id', (req, res) => {
+  const id = req.params.id;
+  User.findByIdAndRemove(id, (err, user) => {
+    if (err) {
+      return res.send(err);
+    }
+    return res.send('user deleted');
+  });
+});
 
 app.listen(5000, () => {
   console.log('Server is listening on port 5000');

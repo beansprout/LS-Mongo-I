@@ -27,10 +27,10 @@
  ✓ Install npm packages: `npm i --save express body-parser cors mongoose`
  ✓ Start your MongoDB server by running `mongod` from the command line.
 Implement the following routes but have them utilize a database to achieve data persistence.
-* [POST] `/users` This route should save a new user to the server. (This is just in memory and will not persist if you restart the server.)
-* [GET] `/users` This route will return an array of all users.
-* [GET] `/users/:id` This route will return the user with the matching `id` (`_id` on the db document) property.
-* [DELETE] `/users/:id` This route should delete the specified user.
+ ✓ [POST] `/users` This route should save a new user to the server. (This is just in memory and will not persist if you restart the server.)
+ ✓ [GET] `/users` This route will return an array of all users.
+✓ [GET] `/users/:id` This route will return the user with the matching `id` (`_id` on the db document) property.
+✓ [DELETE] `/users/:id` This route should delete the specified user.
 
 ## Extra Credit
 
