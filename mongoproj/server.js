@@ -12,6 +12,7 @@ mongoose.connect('mongodb://localhost/user_mongoI_proj');
 
 // connect server to User schema model
 const User = require('./models/user');
+const BlogPost = require ('./models/blogPost.js');
 
 const app = express();
 
@@ -24,7 +25,7 @@ app.get('/', (req, res) => {
   res.send('hello world!');
 });
 
-// ------ routes --------------------------
+// ------ user routes --------------------------
 
 // User.find with {} empty object finds all users
 // route gets array of all users
@@ -63,6 +64,27 @@ app.delete('/users/:id', (req, res) => {
       return res.send(err);
     }
     return res.send('user deleted');
+  });
+});
+
+// ------ blog routes --------------------------
+
+app.get('/posts', (req, res) => {
+  BlogPost.find({}, (err, posts) => {
+    if (err) {
+      return res.send(err);
+    }
+    return res.send(posts);
+  });
+});
+
+app.post('/posts', (req, res) => {
+  const post = new BlogPost(req.body);
+  post.save((err, response) => {
+    if (err) {
+      return res.send(err);
+    }
+    return res.send('success! post saved.');
   });
 });
 
